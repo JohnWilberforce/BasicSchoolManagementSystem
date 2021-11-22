@@ -1,0 +1,60 @@
+{% extends 'admin_dashboard.html'%}
+
+         {% block title %}
+          view Students
+         {% endblock %}
+
+         {%  block content%}
+   <body class="text-center">
+    <div class="container">
+        <div class="row">
+        <div class="table-responsive">
+            <div class="col md-12">
+                <div class="jumbotron p-3">
+                    <table class="table table-hover table-dark">
+      <tr>
+          <th>name</th>
+          <th>dateOfBirth</th>
+          <th>stage</th>
+          <th>term</th>
+          <th>parentname</th>
+          <th>address</th>
+          <th>date</th>
+      </tr>
+                        <a class="nav-link" href="{{url_for('admin_dashboard')}}">BACK TO ADMIN DASHBOARD</a>
+
+    {% for row in stud %}
+                        <tr>
+      <td>{{row.name}}</td>
+      <td>{{row.dateOfBirth}}</td>
+      <td>{{row.stage}}</td>
+      <td>{{row.term}}</td>
+      <td>{{row.parentname}}</td>
+      <td>{{row.address}}</td>
+      <td>{{row.date}}</td>
+                            </tr>
+      {% endfor %}
+
+  </table>
+                    </div>
+                </div>
+            </div>
+</div>
+
+ {% endblock %}
+
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </div>
+   </body>
+   <style>
+      body {
+      background-color: #006994;
+      color: white
+      }
+   </style>
+</html>

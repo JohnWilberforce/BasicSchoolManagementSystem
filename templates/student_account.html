@@ -1,0 +1,109 @@
+{% extends 'accounts_dashboard.html'%}
+
+         {% block title %}
+          view Students
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+         $(".search_button").click(function() {
+            var search_word = $("#search_box").val();
+            var dataString = 'search_word='+ search_word;
+            if (search_word==''){
+            }else{
+              $.ajax({
+                type: "POST",
+                url: "/search",
+                data: dataString'
+                cache: false,
+                beforeSend: function(html){
+                    document.getElementById("insert_search").innerHTML= '';
+                    $("#flash").show();
+                    $("#searchword").show();
+                    $(".searchword").html(search_word);
+                    $("#flash").html('<img src="static/img/loader.gif"  align="absmiddle"> loading Results...');
+
+                 },
+                    success: function(html){
+                    $("#insert_search").show();
+                    $("#insert_search").append(html.data);
+                    $("#flash").hide();
+                }
+              });
+            }
+          return false;
+         });
+    });
+    </script>
+         {% endblock %}
+
+         {%  block content%}
+   <body class="text-center">
+    <div class="container">
+        <div class="row">
+        <div class="table-responsive">
+            <div class="col md-12">
+                <div class="jumbotron p-3">
+                    <table class="table table-hover table-dark">
+      <tr>
+          <th>name</th>
+          <th>Fees Paid</th>
+          <th>Date Paid</th>
+          <th>Current Balance</th>
+          <th>Previous Arears</th>
+          <th>Total Amount Owed</th>
+          <th>Parent's Contact</th>
+      </tr>
+<ul>
+                        <a class="nav-link" href="{{url_for('accounts_dashboard')}}">BACK TO ACCOUNTS DASHBOARD</a>
+
+
+                           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <form  action="" method="">
+       <input type="text" id="search_box" class="search_box" placeholder="Search.." name="search">
+       <input type="submit" value="Search" class="search_button" />
+    </form>
+
+</ul>
+
+    {% for row in studentfees %}
+                        <tr>
+      <td>{{row.studentName}}</td>
+
+      <td>{{row.feesPaid}}</td>
+      <td>{{row.dateOfPayment}}</td>
+      <td>{{row.currentBalance}}</td>
+      <td>{{row.previousArears}}</td>
+      <td>{{ row.totalOwed}}</td>
+      <td>{{row.parentsContact}}</td>
+                            </tr>
+      {% endfor %}
+
+  </table>
+                    </div>
+                </div>
+            </div>
+</div>
+
+<!--<div id="searchword"> search results for <span class="searchword"></span> </div>-->
+<!--<div id=" flash"></div>-->
+<!--<ol id="insert_search class="update></ol>-->
+
+ {% endblock %}
+
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </div>
+   </body>
+    </script>
+
+   <style>
+      body {
+      background-color: #006994;
+      color: white
+      }
+   </style>
+</html>
