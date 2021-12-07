@@ -134,11 +134,25 @@
       </nav>
     </div>
 
-<form  action="/search" method="POST">
-       <input type="text" id="search_word" class="search_word" placeholder="Search..by student's name" name="search_word">
-       <input type="submit" value="Search by Name" class="search_button" /><br>
-     </form>
+<!--<form  action="/search" method="POST">-->
+<!--       <input type="text" id="search_word" class="search_word" placeholder="Search..by student's name" name="search_word">-->
+<!--       <input type="submit" value="Search by Name" class="search_button" /><br>-->
 
+
+<form  action="/search" method="POST">
+    <div class="searchBox">
+       <input type="text" id="search_word" class="search_word" placeholder="Search..by student's name" name="search_word">
+
+<!--            <input class="searchInput"type="text" name="" placeholder="Search">-->
+            <button class="searchButton" href="#">
+                <i class="material-icons">
+                    search
+                </i>
+            </button>
+        </div>
+     </form>
+<br>
+    <br>
 
 <form  action="/searched" method="POST">
     <label for="search">From</label>
@@ -147,23 +161,6 @@
            <input type="date" id="searcher" class="searcher" placeholder="To" name="searcher">
                 <input type="submit" value="Search by Date" class="search_button" /><br>
 </form>
-<!--    <form action="/searched" method="POST">-->
-
-<!--    <label for="amountOwed">Select amount owed:</label>-->
-<!--        <select name="amountOwed" id="amountOwed">-->
-<!--            <option value="< 1000"> < 1000gh</option>-->
-<!--            <option value="> 1000"> > 1000gh</option>-->
-
-<!--        </select>-->
-<!--        <input type="submit" value="Search" class="search_button" /><br>-->
-
-<!--    </form>-->
-<!--<br>-->
-<!--<form  action="/searched" method="POST">-->
-<!--       <input type="text" id="searchword" class="searchword" placeholder="Search..by amount owed " name="searchword">-->
-<!--       <input type="submit" value="Search" class="search_button" /><br>-->
-<!--     </form>-->
-
        {% block content %}
 
 
@@ -183,7 +180,8 @@
 
    <style>
       body {
-      background-color: #006994;
+      background-color: #46616c;
       color: white
+      }
    </style>
 </html>

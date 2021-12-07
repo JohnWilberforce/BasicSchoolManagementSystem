@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Attendance </title>
+</head>
+<body>
+
+   <body class="text-center">
+    <div class="container">
+        <div class="row">
+        <div class="table-responsive">
+            <div class="col md-12">
+                <div class="jumbotron p-3">
+                    <table class="table table-hover table-dark">
+      <tr>
+          <th>Student Name</th>
+          <th>Attendance</th>
+          <th>Class Teacher</th>
+          <th>Date</th>
+      </tr>
+<!--                        <a class="nav-link" href="{{url_for('staff_dashboard')}}">BACK TO STAFF DASHBOARD</a>-->
+
+    {% for row in attendance %}
+                        <tr>
+      <td>{{row.name}}</td>
+      <td>{{row.attendance}}</td>
+      <td>{{row.classTeacher}}</td>
+      <td>{{row.dateTime}}</td>>
+                            </tr>
+      {% endfor %}
+
+  </table>
+</body>
+</html>

@@ -21,7 +21,7 @@
           <th>Class Teacher Name</th>
                     <th>Date</th>
       </tr>
-                        <a class="nav-link" href="{{url_for('staff_dashboard')}}">BACK TO STAFF DASHBOARD</a>
+<!--                        <a class="nav-link" href="{{url_for('staff_dashboard')}}">BACK TO STAFF DASHBOARD</a>-->
 
     {% for row in score %}
                         <tr>
@@ -40,6 +40,13 @@
                 </div>
             </div>
 </div>
+        <br>
+
+<p>Search Students scores by Name</p>
+<form  action="/search_score" method="POST">
+       <input type="text" id="search" class="search_word" placeholder="Enter name of Student" name="search">
+    <input type="submit" value="Search.." class="search_button" /><br>
+</form>
 
  {% endblock %}
 

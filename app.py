@@ -1,4 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, Response, session, jsonify
+import re
+
+from flask import Flask, send_from_directory, render_template, request, flash, redirect, url_for, flash, Response, \
+    session, jsonify
 from flask_mysqldb import MySQL, MySQLdb
 import bcrypt
 
@@ -19,58 +22,78 @@ def homepage():
 
 @app.route('/admin_register', methods=["POST", "GET"])
 def admin_register():
+    msg = ""
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password'].encode('utf-8')
         hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
-        privilege = request.form['privilege']
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO administrationStaff (username, password, privilege) VALUES (%s, %s, %s)",
-                    (username, hash_password, privilege,))
-        mysql.connection.commit()
-        session['username'] = username
-        mysql.connection.close()
+        cur.execute('SELECT * FROM administrationStaff WHERE username = % s', (username,))
+        user = cur.fetchone()
+        if user:
+            msg = 'Account already exists !'
+        elif not username or not password:
+            msg = 'Please fill out the form !'
+        else:
+            cur.execute('INSERT INTO administrationStaff VALUES (NULL, % s, % s)', (username, hash_password,))
+            mysql.connection.commit()
+            msg = 'You have successfully registered !'
+    else:
+        msg = 'Please fill out the form !'
 
-        return redirect(url_for('homepage'))
-    return render_template('adminRegister.html')
+        # return redirect(url_for('homepage'))
+    return render_template('adminRegister.html', msg=msg)
 
 
 @app.route('/accounts_register', methods=["POST", "GET"])
 def accounts_register():
+    msg = ""
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password'].encode('utf-8')
         hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
-        privilege = request.form['privilege']
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO accountsStaff (username, password, privilege) VALUES (%s, %s, %s)",
-                    (username, hash_password, privilege,))
-        mysql.connection.commit()
-        session['username'] = username
-        mysql.connection.close()
-
+        cur.execute('SELECT * FROM accountsstaff WHERE username = % s', (username,))
+        user = cur.fetchone()
+        if user:
+            msg = 'Account already exists !'
+        elif not username or not password:
+            msg = 'Please fill out the form !'
+        else:
+            cur.execute('INSERT INTO accountstaff VALUES (NULL, % s, % s)', (username, hash_password,))
+            mysql.connection.commit()
+            msg = 'You have successfully registered !'
+    elif request.method == 'POST':
+        msg = 'Please fill out the form !'
         return redirect(url_for('homepage'))
-    return render_template('accountsRegister.html')
+    return render_template('accountsRegister.html', msg=msg)
 
 
 @app.route('/staff_register', methods=["POST", "GET"])
 def staff_register():
+    read = ""
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password'].encode('utf-8')
         hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO staffregistry (username, password) VALUES (%s, %s)",
-                    (username, hash_password))
-        mysql.connection.commit()
-        session['username'] = username
-        mysql.connection.close()
-
+        cur.execute('SELECT * FROM staffregistry WHERE username = % s', (username,))
+        user = cur.fetchone()
+        if user:
+            read = 'Account already exists !'
+        elif not username or not password:
+            read = 'Please fill out the form !'
+        else:
+            cur.execute('INSERT INTO staffregistry VALUES (NULL, % s, % s)', (username, hash_password,))
+            mysql.connection.commit()
+            read = 'You have successfully registered !'
+    elif request.method == 'POST':
+        read = 'Please fill out the form !'
         return redirect(url_for('homepage'))
-    return render_template('staffRegister.html')
+    return render_template('staffRegister.html', read=read)
 
 
 @app.route('/admin_login_page', methods=["POST", "GET"])
@@ -83,10 +106,14 @@ def admin_login_page():
         cur.execute("SELECT * FROM administrationstaff WHERE username=%s", (username,))
         user = cur.fetchone()
         cur.close()
+
+        if not user:
+            read = "Error password or user not matched"
+            return render_template("adminLogin.html", read=read)
         if user:
-            if bcrypt.hashpw(password, user['password'].encode('utf-8')):  # == user['password'].encode('utf-8'):
+            if bcrypt.hashpw(password, user['password'].encode('utf-8')) == user['password'].encode('utf-8'):
                 session['username'] = user['username']
-                return render_template('admin_dashboard.html')
+                return redirect(url_for("admin_dashboard"))
             else:
                 read = "Error password or user not matched"
                 return render_template('homepage.html', read=read)
@@ -103,15 +130,20 @@ def staff_login_page():
         cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cur.execute("SELECT * FROM staffregistry WHERE username=%s", (username,))
         user = cur.fetchone()
+        cur.close()
+        read = "Error password or user not matched"
+        if not user:
+            return render_template("staffLogin.html", read=read)
+
         if user:
             if bcrypt.hashpw(password, user['password'].encode('utf-8')) == user['password'].encode('utf-8'):
                 session['username'] = user['username']
                 session['password'] = user['password']
+                return redirect(url_for("staff_dashboard"))
 
-                return render_template('staff_dashboard.html')
             else:
                 error = "Error password or user not matched"
-                return render_template('staffLogin.html', error=error)
+                return render_template('staffLogin.html', read=read)
 
     return render_template("staffLogin.html")
 
@@ -126,10 +158,14 @@ def accounts_login():
         cur.execute("SELECT * FROM accountsstaff WHERE username=%s", (username,))
         user = cur.fetchone()
         cur.close()
+        if not user:
+            read = "Error password or user not matched"
+            return render_template("accountsLogin.html", read=read)
+
         if user:
             if bcrypt.hashpw(password, user['password'].encode('utf-8')) == user['password'].encode('utf-8'):
                 session['username'] = user['username']
-                return render_template('accounts_dashboard.html')
+                return redirect(url_for("accounts_dashboard"))
             else:
                 return "Error password or user not matched"
 
@@ -245,6 +281,33 @@ def student_account():
         return render_template('student_account.html', studentfees=students)
 
 
+@app.route('/delStudent', methods=['POST', 'GET'])
+def delStudent():
+    if request.method == 'POST':
+        student_name = request.form['student_name']
+        cur = mysql.connection.cursor()
+        cur.execute("DELETE FROM stud WHERE name LIKE '{}%'".format(student_name))
+        cur.execute("DELETE FROM studentfees WHERE studentName LIKE '{}%'".format(student_name))
+        mysql.connection.commit()
+
+        return redirect(url_for('admin_dashboard'))
+
+    return render_template('delete_students.html')
+
+
+@app.route('/delStaff', methods=['POST', 'GET'])
+def delStaff():
+    if request.method == 'POST':
+        staf_name = request.form['staf_name']
+        cur = mysql.connection.cursor()
+        cur.execute("DELETE FROM staff WHERE staff_name LIKE '{}%'".format(staf_name))
+        mysql.connection.commit()
+
+        return redirect(url_for('admin_dashboard'))
+
+    return render_template('delete_staff.html')
+
+
 @app.route('/student_account_admin', methods=['POST', 'GET'])
 def student_account_admin():
     if request.method == 'GET':
@@ -339,13 +402,17 @@ def searched():
         cur.execute("SELECT * FROM studentfees WHERE dateOfPayment BETWEEN '{}%' AND '{}%'".format(search, searcher))
         studentfees = cur.fetchall()
         return render_template('search.html', studentfees=studentfees)
-    else:
+
+
+@app.route('/search_attendance', methods=['POST', 'GET'])
+def search_attendance():
+    if request.method == 'POST':
         search = request.form["search"]
-        searcher = request.form["searcher"]
+        # searcher = request.form["searcher"]
         cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cur.execute("SELECT * FROM studentfees WHERE dateOfPayment BETWEEN'{}%' AND  '{}%'".format(search, searcher))
-        studentfees = cur.fetchall()
-        return render_template('search.html', studentfees=studentfees)
+        cur.execute("SELECT * FROM attendance WHERE dateTime LIKE '{}%' ".format(search))
+        attendance = cur.fetchall()
+        return render_template('attendance.html', attendance=attendance)
 
 
 @app.route('/subjectScores', methods=['POST', 'GET'])
@@ -369,6 +436,17 @@ def subjectScores():
         cur.close()
 
         return redirect(url_for('staff_dashboard'))
+
+
+@app.route('/search_score', methods=['POST', 'GET'])
+def search_score():
+    if request.method == 'POST':
+        search = request.form["search"]
+        # searcher = request.form["searcher"]
+        cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cur.execute("SELECT * FROM score WHERE studentName LIKE '{}%' ".format(search))
+        score = cur.fetchall()
+        return render_template('score.html', score=score)
 
 
 @app.route('/attendance', methods=['POST', 'GET'])

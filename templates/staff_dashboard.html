@@ -67,7 +67,7 @@
 </ul>
              <a class="nav-link" href="{{url_for('view_attendance_score')}}"><font color="white" >View Attendance Score</font></a>
 
-           <a class="nav-link" href=" {{url_for('view_student_score')}}">View Students Scores</a>
+           <a class="nav-link" href="{{url_for('view_student_score')}}">View Students Scores</a>
 
      </div>
           <!-- Trigger the modal with a button -->
@@ -136,6 +136,34 @@
 
 
        {% block content %}
+ <body class="text-center">
+    <div class="container">
+        <div class="row">
+        <div class="table-responsive">
+            <div class="col md-12">
+                <div class="jumbotron p-3">
+                    <table class="table table-hover table-dark">
+      <tr>
+          <th>Student Name</th>
+          <th>Attendance</th>
+          <th>Class Teacher</th>
+          <th>Date</th>
+      </tr>
+                        <div class="container">
+
+                            </div>
+
+    {% for row in attendance %}
+                        <tr>
+      <td>{{row.name}}</td>
+      <td>{{row.attendance}}</td>
+      <td>{{row.classTeacher}}</td>
+      <td>{{row.dateTime}}</td>>
+                            </tr>
+      {% endfor %}
+
+  </table>
+
 
          {% endblock %}
 
@@ -149,11 +177,16 @@
     </div>
       </nav>
     </div>
-   </body>
+        </div>
+        </div>
+
    <style>
       body {
-      background-color: #006994;
+      background-color: #46616c;
       color: white
       }
    </style>
+    </div>
+ </body>
+   </body>
 </html>

@@ -25,6 +25,7 @@
            <ul class="navbar-nav mr-auto">
 
                <!-- Trigger the modal with a button -->
+               <div class="container" >
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add students</button>
 
 <!-- Modal -->
@@ -46,9 +47,9 @@
     <input type="text" class="form-control" id="name"  name="name" placeholder="Enter name">
 
     <label for="dateOfBirth">Date Of Birth</label>
-    <input type="text" class="form-control" id="dateOfBirth" name=dateOfBirth placeholder="Date Of Birth">
+    <input type="date" class="form-control" id="dateOfBirth" name=dateOfBirth placeholder="Date Of Birth">
 
-    <label for="dateOfBirth">Stage</label>
+    <label for="stage">Stage</label>
     <input type="text" class="form-control" id="stage" name="stage" placeholder="Stage">
 
       <label for="term">Term</label>
@@ -67,14 +68,70 @@
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
     </div>
-
+  </div>
   </div>
 </div>
 <div>
+          <!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#sModal">Delete Students</button>
+
+<!-- Modal -->
+<div id="sModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">close</button>
+        <h4 class="modal-title">Delete Students</h4>
+      </div>
+      <div class="modal-body">
+
+<form action="/delStudent" method="POST">
+  <div class="form-group">
+    <input type="text" class="form-control" id="student_name"  name="student_name" placeholder="Enter name of Student to br DELETED">
+
+</div>
+
+  <button type="submit" class="btn btn-primary">Delete</button>
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+          <!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#tModal">Delete Staff</button>
+
+<!-- Modal -->
+<div id="tModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">close</button>
+        <h4 class="modal-title">Delete Staff</h4>
+      </div>
+      <div class="modal-body">
+
+<form action="/delStaff" method="POST">
+  <div class="form-group">
+    <input type="text" class="form-control" id="staf_name"  name="staf_name" placeholder="Enter name of Staff  to br DELETED">
+
+</div>
+
+  <button type="submit" class="btn btn-primary">Delete</button>
+</form>
+      </div>
+</div>
+  </div>
+</div>
+</div>
 </div>
 </ul>
 <!--             <ul>-->
@@ -111,7 +168,7 @@
     <input type="text" class="form-control" id="staff_name"  name="staff_name" placeholder="Enter name">
 
     <label for="date_of_birth">Date Of Birth</label>
-    <input type="text" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="Date Of Birth">
+    <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="Date Of Birth">
 
     <label for="role">StaffType</label>
     <input type="text" class="form-control" id="staffType" name="staffType" placeholder=" a teacher, accounts staff, etc">
@@ -141,7 +198,7 @@
 
 
 
-                  <a class="nav-link" href="">LOGOUT</a>
+                  <a class="nav-link" href="{{url_for('homepage')}}">LOGOUT</a>
 
         </ul>
       </nav>
@@ -162,10 +219,15 @@
     </div>
       </nav>
     </div>
+   <br>
+   <br>
+
+<!--   <img src="static/images/download.jpg" width="400">-->
+   <img src="{{url_for('static',filename='images/downloads.jpg')}}" width="800">
    </body>
    <style>
       body {
-      background-color: #006994;
+      background-color: #46616c;
       color: white
       }
    </style>

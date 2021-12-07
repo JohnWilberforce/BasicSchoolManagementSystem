@@ -18,7 +18,10 @@
           <th>Class Teacher</th>
           <th>Date</th>
       </tr>
-                        <a class="nav-link" href="{{url_for('staff_dashboard')}}">BACK TO STAFF DASHBOARD</a>
+                        <div class="container">
+<!--                        <a class="nav-link" href="{{url_for('staff_dashboard')}}">BACK TO STAFF DASHBOARD</a>-->
+
+                            </div>
 
     {% for row in attendance %}
                         <tr>
@@ -34,6 +37,19 @@
                 </div>
             </div>
 </div>
+
+
+<br>
+    <br>
+<p>Search Attendance by Date</p>
+<form  action="/search_attendance" method="POST">
+    <label for="search">From</label>
+       <input type="date" id="search" class="search_word" placeholder="From" name="search">
+<!--        <label for="searcher">To</label>-->
+<!--           <input type="date" id="searcher" class="searcher" placeholder="To" name="searcher">-->
+                <input type="submit" value="Search by Date" class="search_button" /><br>
+</form>
+        <br><br>
 
  {% endblock %}
 

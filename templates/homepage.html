@@ -48,17 +48,16 @@
       </nav>
 
 
-       {% block content %}
-        <br>
+<!--       {% block content %}-->
         <br>
         <p><h4><font color=" black" size ="20" >WELCOME TO STAGES</font></h4></p>
         <p><h4><font color="black" size="10" > ANWOMASO </font></h4></p>
+<!--  <img src="{{url_for('static',filename='images/downloads.jpg')}}" width="600">-->
+        <img src="static/images/downloads.jpg" alt="a picture of the school">
 
         <br>
-        {{ read }}
-<!--        <img src="http://www.stgeorgeutah.com/wp-content/uploads/2016/01/15.11.10-Cedar-North-Elementary-View-02-cropped.jpg" height="400" width="800" >-->
-       {% endblock %}
-
+<!--        {{ read }}-->
+<!--{% endblock %}-->
       <script src='https://kit.fontawesome.com/a076d05399.js'></script>
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -67,8 +66,12 @@
    </body>
    <style>
       body {
-      background-color: #006994;
+      background-color: #46616c;
       color: white
+      }
+      img {
+      width: 600px;
+      border-radius:300px;
       }
    </style>
 </html>
